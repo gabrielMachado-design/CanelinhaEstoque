@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "574177379686",
+    "project_id": "canelinha-app",
+    "storage_bucket": "canelinha-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574177379686:android:7392d971e4297fe50ff4a7",
+        "android_client_info": {
+          "package_name": "com.example.canelinhaestoque"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARYhH2VGVcD1QCjHiKWcMhCWfeLsalxtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
