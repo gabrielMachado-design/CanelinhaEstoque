@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Canelinha Estoque</string>
+    <string name="error_email_required">Digite seu e-mail</string>
 </resources>

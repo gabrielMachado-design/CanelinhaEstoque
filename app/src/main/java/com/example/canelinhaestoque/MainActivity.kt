@@ -1,28 +1,55 @@
 package com.example.canelinhaestoque
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.canelinhaestoque.ui.theme.CanelinhaEstoqueTheme
+import androidx.compose.runtime.*
+import com.example.canelinhaestoque.ui.screens.AddProductActivity
+import com.example.canelinhaestoque.ui.screens.HomeScreen
+import com.example.canelinhaestoque.ui.screens.ProductListScreen
+import com.example.canelinhaestoque.viewmodel.ProductViewModel
+import kotlin.jvm.java
+
+
+// 🔹 Controle de telas
+enum class Screen {
+    HOME,
+    PRODUCTS
+}
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        val viewModel = ProductViewModel()
+
         setContent {
-            CanelinhaEstoqueTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+
+
+            var currentScreen by remember { mutableStateOf(Screen.HOME) }
+
+            when (currentScreen) {
+
+
+                Screen.HOME -> {
+                    HomeScreen(
+                        onEstoqueClick = {
+                            currentScreen = Screen.PRODUCTS
+                        }
+                    )
+                }
+
+
+                Screen.PRODUCTS -> {
+                    ProductListScreen(
+                        viewModel = viewModel,
+                        onAddClick = {
+                            startActivity(
+                                Intent(this@MainActivity, AddProductActivity::class.java)
+                            )
+                        }
                     )
                 }
             }
@@ -30,18 +57,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CanelinhaEstoqueTheme {
-        Greeting("Android")
-    }
-}
