@@ -24,9 +24,9 @@ class ProductViewModel : ViewModel() {
     fun deleteProduct(productId: String) {
         repository.deleteProduct(productId,
             onSucess = {
-                loadProducts() // Recarrega a lista após deletar
+                loadProducts()
             },
-            onFailure = { /* Trate o erro aqui se quiser */ }
+            onFailure = { "Falha ao excluir" }
         )
     }
 

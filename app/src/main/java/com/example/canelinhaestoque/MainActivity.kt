@@ -7,10 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import com.example.canelinhaestoque.ui.screens.AddProductActivity
 import com.example.canelinhaestoque.ui.screens.HomeScreen
+import com.example.canelinhaestoque.ui.screens.LoginActivity
 import com.example.canelinhaestoque.ui.screens.ProductListScreen
 import com.example.canelinhaestoque.viewmodel.ProductViewModel
-import kotlin.jvm.java
-
+import com.google.firebase.auth.FirebaseAuth
 
 // 🔹 Controle de telas
 enum class Screen {
@@ -20,19 +20,27 @@ enum class Screen {
 
 class MainActivity : ComponentActivity() {
 
+    // 🔥 ViewModel fora (correto)
+    private val viewModel = ProductViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = ProductViewModel()
+        // 🔐 LOGIN (mantido)
+        val auth = FirebaseAuth.getInstance()
+        if (auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
 
         setContent {
-
 
             var currentScreen by remember { mutableStateOf(Screen.HOME) }
 
             when (currentScreen) {
 
-
+                // 🏠 HOME
                 Screen.HOME -> {
                     HomeScreen(
                         onEstoqueClick = {
@@ -41,19 +49,30 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-
+                // 📦 PRODUTOS
                 Screen.PRODUCTS -> {
                     ProductListScreen(
                         viewModel = viewModel,
+
                         onAddClick = {
                             startActivity(
                                 Intent(this@MainActivity, AddProductActivity::class.java)
                             )
+                        },
+
+                        // 🔥 BOTÃO VOLTAR FUNCIONANDO
+                        onBackClick = {
+                            currentScreen = Screen.HOME
                         }
                     )
                 }
             }
         }
     }
-}
 
+    // 🔥 Atualiza lista ao voltar do cadastro
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadProducts()
+    }
+}
