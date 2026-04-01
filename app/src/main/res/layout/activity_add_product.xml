@@ -7,10 +7,19 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:layout_marginTop="30dp"
         android:id="@+id/etName"
         android:hint="Nome do produto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etCostPrice"
+        android:hint="Preço de Custo"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
     <EditText
         android:id="@+id/etPrice"

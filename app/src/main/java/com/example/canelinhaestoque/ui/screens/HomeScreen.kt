@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
 
+val CanelinhaRed = Color(0xFFCE1717)
+val DarkRed = Color(0xFFB71C1C)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -32,13 +34,15 @@ fun HomeScreen(
                     Text(
                         "Canelinha Estoque",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
+                        color = CanelinhaRed
+
                     )
                 },
                 actions = {
-                    // BOTÃO DE SAIR (LOGOUT)
+
                     IconButton(onClick = {
-                        auth.signOut() // Desloga do Firebase
+                        auth.signOut()
 
                         // Navega para o Login e limpa a pilha de telas
                         val intent = Intent(context, LoginActivity::class.java).apply {
@@ -49,7 +53,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Logout,
                             contentDescription = "Logout",
-                            tint = Color(0xFFCE1717) // Vermelho igual ao seu botão de login
+                            tint = CanelinhaRed
                         )
                     }
                 },
@@ -109,7 +113,7 @@ fun MenuCard(title: String, onClick: () -> Unit) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black
+                color = DarkRed
             )
         }
     }
