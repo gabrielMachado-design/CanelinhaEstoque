@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8">
+    android:background="#F8F8F8"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +21,7 @@
             android:contentDescription="Voltar"
             android:src="@drawable/abc_ic_ab_back_material"
             app:tint="#FFCE1717"
-            android:tint="#CE1717"
-            />
+            android:tint="#CE1717"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,26 +29,20 @@
             android:layout_gravity="center"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="16dp"
-            android:text="Novo Produto"
+            android:text="Editar Produto"
             android:textColor="#CE1717"
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- NOME DO PRODUTO -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Nome do produto"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="#CE1717"
-            app:hintTextColor="#CE1717"
-            android:elevation="4dp">
-
+            app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CE1717" app:hintTextColor="#CE1717">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
@@ -56,21 +50,15 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- PREÇO DE CUSTO -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Preço de Custo"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="#CE1717"
-            app:hintTextColor="#CE1717"
-            android:elevation="4dp">
-
+            app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CE1717" app:hintTextColor="#CE1717">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCostPrice"
                 android:layout_width="match_parent"
@@ -78,21 +66,15 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- PREÇO DE VENDA -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Preço de Venda"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="#CE1717"
-            app:hintTextColor="#CE1717"
-            android:elevation="4dp">
-
+            app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CE1717" app:hintTextColor="#CE1717">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPrice"
                 android:layout_width="match_parent"
@@ -100,21 +82,15 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- QUANTIDADE EM ESTOQUE -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:hint="Quantidade em estoque"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="#CE1717"
-            app:hintTextColor="#CE1717"
-            android:elevation="4dp">
-
+            app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CE1717" app:hintTextColor="#CE1717">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etStock"
                 android:layout_width="match_parent"
@@ -122,18 +98,15 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- BOTÃO SALVAR -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSave"
+            android:id="@+id/btnUpdate"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="SALVAR PRODUTO"
+            android:text="ATUALIZAR PRODUTO"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
             app:backgroundTint="#CE1717"
-            app:cornerRadius="12dp"
-            android:elevation="8dp" />
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>

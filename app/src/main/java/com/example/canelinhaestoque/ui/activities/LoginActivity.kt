@@ -1,4 +1,4 @@
-package com.example.canelinhaestoque.ui.screens
+package com.example.canelinhaestoque.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,13 +11,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 
-/**
- * Professional Login Screen for CanelinhaEstoque
- * Handles user authentication via Firebase Auth.
- */
+
 class LoginActivity : AppCompatActivity() {
 
-    // Firebase Authentication instance
+
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +25,7 @@ class LoginActivity : AppCompatActivity() {
         setupLoginButton()
     }
 
-    /**
-     * If user is already logged in, skip this screen.
-     */
+
     private fun checkUserSession() {
         if (auth.currentUser != null) {
             navigateToInventory()
@@ -38,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupLoginButton() {
-        // UI References
+
         val emailInput = findViewById<TextInputEditText>(R.id.user)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
         val emailLayout = findViewById<TextInputLayout>(R.id.layoutUser)
@@ -49,11 +44,11 @@ class LoginActivity : AppCompatActivity() {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
-            // Reset errors
+
             emailLayout.error = null
             passwordLayout.error = null
 
-            // Validation Logic
+
             if (email.isEmpty()) {
                     emailLayout.error = "Digite seu E-mail"
                 emailInput.requestFocus()
@@ -70,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
             loginButton.isEnabled = false
             loginButton.text = "Autenticando"
 
-            // Firebase Authentication Process
+
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show()
@@ -89,12 +84,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Closes login and starts the main inventory screen.
-     */
     private fun navigateToInventory() {
         val intent = Intent(this, MainActivity::class.java).apply {
-            // Clears activity stack so user can't go back to login
+
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)

@@ -15,7 +15,7 @@ class ProductRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
-    // ATUALIZAÇÃO EM TEMPO REAL: Mudado de .get() para .addSnapshotListener
+
     fun getProducts(callback: (List<Product>) -> Unit) {
         db.collection("produtos")
             .addSnapshotListener { result, error ->
@@ -33,7 +33,7 @@ class ProductRepository {
                         description = document.getString("descrição") ?: "",
                         costPrice = document.getDouble("preco_custo") ?: 0.0,
                         salePrice = document.getDouble("preco_venda") ?: 0.0,
-                        stockQuantity = document.getLong("estoque")?.toInt() ?: 0,
+                        stockQuantity = document.getLong("estoque")?.toDouble() ?: 0.0,
                         photoUrl = document.getString("foto_url") ?: ""
                     )
                     productList.add(product)
@@ -47,24 +47,24 @@ class ProductRepository {
         val paint = Paint()
         val titlePaint = Paint()
 
-        // Página A4 (595 x 842)
+
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
         val page = pdfDocument.startPage(pageInfo)
         val canvas: Canvas = page.canvas
 
-        // Título do Relatório
+
         titlePaint.textSize = 25f
         titlePaint.isFakeBoldText = true
         canvas.drawText("Relatório de Estoque - Canelinha", 40f, 50f, titlePaint)
 
-        // Cabeçalho
+
         paint.textSize = 16f
         paint.isFakeBoldText = true
         canvas.drawText("Produto", 40f, 100f, paint)
         canvas.drawText("Quantidade", 400f, 100f, paint)
         canvas.drawLine(40f, 115f, 550f, 115f, paint)
 
-        // Itens
+
         paint.isFakeBoldText = false
         paint.textSize = 14f
         var yPosition = 150f
@@ -74,12 +74,12 @@ class ProductRepository {
             canvas.drawText(product.stockQuantity.toString(), 400f, yPosition, paint)
             yPosition += 30f
 
-            if (yPosition > 800f) break // Limite da página
+            if (yPosition > 800f) break
         }
 
         pdfDocument.finishPage(page)
 
-        // Salva na pasta de documentos do Celular
+
         val file = File(
             context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
             "RelatorioEstoque.pdf"
@@ -106,7 +106,7 @@ class ProductRepository {
         )
 
         db.collection("produtos")
-            .add(data) // Corrigido: Envia o mapa 'data' com os nomes em português
+            .add(data)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { exception -> onFailure(exception) }
     }

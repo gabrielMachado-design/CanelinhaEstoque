@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
-import com.example.canelinhaestoque.ui.screens.AddProductActivity
+import com.example.canelinhaestoque.ui.activities.AddProductActivity
 import com.example.canelinhaestoque.ui.screens.HomeScreen
-import com.example.canelinhaestoque.ui.screens.LoginActivity
+import com.example.canelinhaestoque.ui.activities.LoginActivity
 import com.example.canelinhaestoque.ui.screens.ProductListScreen
 import com.example.canelinhaestoque.viewmodel.ProductViewModel
 import com.google.firebase.auth.FirebaseAuth

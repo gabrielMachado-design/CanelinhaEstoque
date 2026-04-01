@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.canelinhaestoque.ui.activities.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 val CanelinhaRed = Color(0xFFCE1717)

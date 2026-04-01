@@ -1,41 +1,49 @@
 package com.example.canelinhaestoque.ui.screens
 
-import android.R.color.white
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.canelinhaestoque.ui.activities.EditProductActivity
 import com.example.canelinhaestoque.viewmodel.ProductViewModel
-import androidx.compose.material.icons.filled.Search
 
+// Cores padronizadas
 val canelinhaRed = Color(0xFFCE1717)
 val darkRed = Color(0xFFB71C1C)
-val lightGrayText = Color(0xFF9E9E9E)
+val lightGrayText = Color(0xFFD1D1D1) // Um cinza bem clarinho para ler sobre o vermelho
+
 @Composable
 fun ProductListScreen(
     viewModel: ProductViewModel,
     onAddClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
-
+    val context = LocalContext.current
     val products by viewModel.products
     var search by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.loadProducts()
     }
-
 
     val displayedList = if (search.isEmpty()) {
         products.takeLast(20).reversed()
@@ -47,35 +55,50 @@ fun ProductListScreen(
 
     Column(modifier = Modifier.fillMaxSize().background(Color(0xFFF8F8F8))) {
 
-        // 🔝 TOP BAR
+        // 🔝 TOP BAR ATUALIZADA
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             // 🔙 VOLTAR
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Voltar",
-                    tint = Color(0xFFCE1717))
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Voltar",
+                    tint = canelinhaRed
+                )
             }
+
+            // Título em Vermelho
+            Text(
+                text = "Canelinha Produtos",
+                color = canelinhaRed,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(start = 8.dp)
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
             // ➕ ADICIONAR
             IconButton(onClick = onAddClick) {
-                Icon(Icons.Default.Add, contentDescription = "Adicionar",
-                    tint = canelinhaRed)
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Adicionar",
+                    tint = canelinhaRed
+                )
             }
         }
 
-
+        // 🔍 BUSCA COM SOMBRA E BORDAS REDONDAS
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),            shadowElevation = 6.dp,
+            shape = RoundedCornerShape(28.dp),
+            shadowElevation = 6.dp,
             color = Color.White
         ) {
             OutlinedTextField(
@@ -83,7 +106,7 @@ fun ProductListScreen(
                 onValueChange = { search = it },
                 placeholder = { Text("Buscar produto...", color = Color.Gray) },
                 modifier = Modifier.fillMaxWidth(),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
+                shape = RoundedCornerShape(28.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = canelinhaRed,
@@ -92,63 +115,73 @@ fun ProductListScreen(
                     cursorColor = canelinhaRed
                 ),
                 leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                        tint = canelinhaRed
-                    )
+                    Icon(Icons.Default.Search, contentDescription = null, tint = canelinhaRed)
                 }
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
-        // 📦 LISTA
+        // 📦 LISTA DE PRODUTOS
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-
             items(displayedList) { product ->
-
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
-                    elevation = CardDefaults.cardElevation(6.dp)
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                        .clickable {
+                            // LOGICA PARA ABRIR TELA DE EDIÇÃO
+                            val intent = Intent(context, EditProductActivity::class.java).apply {
+                                putExtra("PRODUCT_ID", product.id)
+                                putExtra("PRODUCT_NAME", product.name)
+                                putExtra("PRODUCT_COST", product.costPrice)
+                                putExtra("PRODUCT_PRICE", product.salePrice)
+                                putExtra("PRODUCT_STOCK", product.stockQuantity)
+                            }
+                            context.startActivity(intent)
+                        },
+                    elevation = CardDefaults.cardElevation(4.dp)
                 ) {
-
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(canelinhaRed)
+                            .background(canelinhaRed) // Célula toda em Vermelho
                             .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-
                         Column(modifier = Modifier.weight(1f)) {
-
+                            // Nome em Branco
                             Text(
                                 text = product.name,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = Color(0xFFFFFFFF),
+                                color = Color.White,
                                 fontWeight = FontWeight.Bold
                             )
 
-                            Text("Quantidade: ${product.stockQuantity}",
-                                color = Color(0xFFFFFFFF),
-                                style = MaterialTheme.typography.bodySmall)
+                            Spacer(modifier = Modifier.height(4.dp))
 
-                            Text("Custo: R$ ${product.costPrice}",
-                                color = Color(0xFFFFFFFF),
-                                style = MaterialTheme.typography.bodySmall)
-
-                            Text("Venda: R$ ${product.salePrice}",
-                                color = Color(0xFFFFFFFF),
-                                style = MaterialTheme.typography.bodySmall)
+                            // Detalhes em Cinza Claro
+                            Text(
+                                text = "Quantidade: ${product.stockQuantity}",
+                                color = lightGrayText,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Text(
+                                text = "Custo: R$ ${product.costPrice}",
+                                color = lightGrayText,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Text(
+                                text = "Venda: R$ ${product.salePrice}",
+                                color = lightGrayText,
+                                style = MaterialTheme.typography.bodySmall
+                            )
                         }
 
-                        // 🗑 DELETE
+                        // 🗑 DELETE EM PRETO
                         IconButton(onClick = {
                             if (product.id.isNotEmpty()) {
                                 viewModel.deleteProduct(product.id)
