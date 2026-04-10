@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.sp
 import com.example.canelinhaestoque.ui.activities.EditProductActivity
 import com.example.canelinhaestoque.viewmodel.ProductViewModel
 
-// Cores padronizadas
+
 val canelinhaRed = Color(0xFFCE1717)
 val darkRed = Color(0xFFB71C1C)
-val lightGrayText = Color(0xFFD1D1D1) // Um cinza bem clarinho para ler sobre o vermelho
+val lightGrayText = Color(0xFFD1D1D1)
 
 @Composable
 fun ProductListScreen(
@@ -55,14 +55,14 @@ fun ProductListScreen(
 
     Column(modifier = Modifier.fillMaxSize().background(Color(0xFFF8F8F8))) {
 
-        // 🔝 TOP BAR ATUALIZADA
+        // TOP BAR
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // 🔙 VOLTAR
+            // VOLTAR
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -71,7 +71,7 @@ fun ProductListScreen(
                 )
             }
 
-            // Título em Vermelho
+            // Título
             Text(
                 text = "Canelinha Produtos",
                 color = canelinhaRed,
@@ -82,7 +82,7 @@ fun ProductListScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // ➕ ADICIONAR
+            // ADICIONAR
             IconButton(onClick = onAddClick) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -92,7 +92,7 @@ fun ProductListScreen(
             }
         }
 
-        // 🔍 BUSCA COM SOMBRA E BORDAS REDONDAS
+        // BUSCA COM SOMBRA E BORDAS REDONDAS
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -133,7 +133,7 @@ fun ProductListScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 6.dp)
                         .clickable {
-                            // LOGICA PARA ABRIR TELA DE EDIÇÃO
+                            // LOGICA  ABRIR TELA  EDIÇÃO
                             val intent = Intent(context, EditProductActivity::class.java).apply {
                                 putExtra("PRODUCT_ID", product.id)
                                 putExtra("PRODUCT_NAME", product.name)
@@ -163,7 +163,7 @@ fun ProductListScreen(
 
                             Spacer(modifier = Modifier.height(4.dp))
 
-                            // Detalhes em Cinza Claro
+
                             Text(
                                 text = "Quantidade: ${product.stockQuantity}",
                                 color = lightGrayText,
@@ -181,7 +181,7 @@ fun ProductListScreen(
                             )
                         }
 
-                        // 🗑 DELETE EM PRETO
+                        //  DELETE
                         IconButton(onClick = {
                             if (product.id.isNotEmpty()) {
                                 viewModel.deleteProduct(product.id)

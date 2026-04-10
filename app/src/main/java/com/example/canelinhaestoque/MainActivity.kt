@@ -9,19 +9,22 @@ import com.example.canelinhaestoque.ui.activities.AddProductActivity
 import com.example.canelinhaestoque.ui.screens.HomeScreen
 import com.example.canelinhaestoque.ui.activities.LoginActivity
 import com.example.canelinhaestoque.ui.screens.ProductListScreen
+import com.example.canelinhaestoque.ui.screens.SaleScreen
 import com.example.canelinhaestoque.viewmodel.ProductViewModel
+import com.example.canelinhaestoque.viewmodel.SaleViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-// 🔹 Controle de telas
 enum class Screen {
     HOME,
-    PRODUCTS
+    PRODUCTS,
+    SALE
 }
 
 class MainActivity : ComponentActivity() {
 
-    // 🔥 ViewModel fora (correto)
+
     private val viewModel = ProductViewModel()
+    private val saleViewModel = SaleViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +43,18 @@ class MainActivity : ComponentActivity() {
 
             when (currentScreen) {
 
-                // 🏠 HOME
                 Screen.HOME -> {
                     HomeScreen(
                         onEstoqueClick = {
                             currentScreen = Screen.PRODUCTS
+                        },
+                        onSalesClick = {
+                            currentScreen = Screen.SALE
                         }
                     )
                 }
 
-                // 📦 PRODUTOS
+
                 Screen.PRODUCTS -> {
                     ProductListScreen(
                         viewModel = viewModel,
@@ -60,7 +65,16 @@ class MainActivity : ComponentActivity() {
                             )
                         },
 
-                        // 🔥 BOTÃO VOLTAR FUNCIONANDO
+
+                        onBackClick = {
+                            currentScreen = Screen.HOME
+                        }
+                    )
+                }
+                Screen.SALE -> {
+                    SaleScreen(
+                        saleViewModel = saleViewModel,
+                        productViewModel = viewModel,
                         onBackClick = {
                             currentScreen = Screen.HOME
                         }
@@ -70,7 +84,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // 🔥 Atualiza lista ao voltar do cadastro
+
     override fun onResume() {
         super.onResume()
         viewModel.loadProducts()

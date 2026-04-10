@@ -33,7 +33,7 @@ class ProductRepository {
                         description = document.getString("descrição") ?: "",
                         costPrice = document.getDouble("preco_custo") ?: 0.0,
                         salePrice = document.getDouble("preco_venda") ?: 0.0,
-                        stockQuantity = document.getLong("estoque")?.toDouble() ?: 0.0,
+                        stockQuantity = document.getDouble("estoque") ?: 0.0,
                         photoUrl = document.getString("foto_url") ?: ""
                     )
                     productList.add(product)

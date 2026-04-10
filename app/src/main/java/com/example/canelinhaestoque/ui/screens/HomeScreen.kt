@@ -23,7 +23,8 @@ val DarkRed = Color(0xFFB71C1C)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onEstoqueClick: () -> Unit
+    onEstoqueClick: () -> Unit,
+    onSalesClick: () -> Unit
 ) {
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
@@ -80,7 +81,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 MenuCard("Estoque") { onEstoqueClick() }
-                MenuCard("Vendas") { /* Futuro */ }
+                MenuCard("Vendas") { onSalesClick() }
             }
 
             Spacer(modifier = Modifier.height(24.dp))

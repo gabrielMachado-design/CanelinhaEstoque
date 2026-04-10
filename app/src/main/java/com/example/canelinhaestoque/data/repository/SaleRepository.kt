@@ -9,15 +9,14 @@ class SaleRepository {
     private val db = FirebaseFirestore.getInstance()
 
     fun saveSale(
-        sale: Sale, onSucess: () -> Unit,
+        sale: Sale,
+        onSucess: () -> Unit,
         onFailure: (Exception) -> Unit
     ){
-
         val data = hashMapOf(
             "data" to sale.date,
-            "forma_pagamento" to sale.paymentMethod,
-            "total" to sale.total,
-            "desconto_total" to sale.totalDiscount,
+            "total" to sale.totalAmount,
+            "desconto_total" to sale.discount,
             "itens" to sale.items.map {
                 hashMapOf(
                     "produto_id" to it.productId,
@@ -26,6 +25,14 @@ class SaleRepository {
                     "preco_unitario" to it.unitPrice,
                     "desconto_item" to it.itemDiscount
 
+                )
+            },
+            "pagamentos" to sale.payment.map {
+                hashMapOf(
+                    "tipo" to it.type,
+                    "valor" to it.amount,
+                    "parcelas" to it.installments,
+                    "vencimento" to it.dueDate
                 )
             }
         )

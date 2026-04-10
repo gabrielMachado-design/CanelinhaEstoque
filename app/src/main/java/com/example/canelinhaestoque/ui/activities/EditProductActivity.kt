@@ -33,7 +33,7 @@ class EditProductActivity : ComponentActivity() {
         val productName = intent.getStringExtra("PRODUCT_NAME") ?: ""
         val productCost = intent.getDoubleExtra("PRODUCT_COST", 0.0)
         val productPrice = intent.getDoubleExtra("PRODUCT_PRICE", 0.0)
-        val productStock = intent.getIntExtra("PRODUCT_STOCK", 0)
+        val productStock = intent.getDoubleExtra("PRODUCT_STOCK", 0.0)
 
         // Preenchendo os campos automaticamente
         etName.setText(productName)
