@@ -7,17 +7,20 @@ import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.widget.Toast
 import com.example.canelinhaestoque.data.model.Product
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 
-class ProductRepository {
+class ProductRepository @Inject constructor(
+    private val firestore: FirebaseFirestore
+) {
 
-    private val db = FirebaseFirestore.getInstance()
 
 
     fun getProducts(callback: (List<Product>) -> Unit) {
-        db.collection("produtos")
+        firestore.collection("produtos")
             .addSnapshotListener { result, error ->
                 if (error != null) {
                     callback(emptyList())
@@ -28,7 +31,6 @@ class ProductRepository {
                 for (document in result!!) {
                     val product = Product(
                         id = document.id,
-                        // Ajustado para ler os nomes que você salva no addProduct
                         name = document.getString("nome") ?: "",
                         description = document.getString("descrição") ?: "",
                         costPrice = document.getDouble("preco_custo") ?: 0.0,
@@ -42,28 +44,75 @@ class ProductRepository {
             }
     }
 
+
+    fun updateProductStock(productId: String, quantitySold: Double) {
+        firestore.collection("produtos")
+            .document(productId)
+
+            .update("estoque", FieldValue.increment(-quantitySold))
+            .addOnFailureListener {
+                // Opcional: Logar erro se a baixa falhar
+            }
+    }
+
+    fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val data = hashMapOf(
+            "nome" to product.name,
+            "descrição" to product.description,
+            "preco_custo" to product.costPrice,
+            "preco_venda" to product.salePrice,
+            "estoque" to product.stockQuantity,
+            "foto_url" to product.photoUrl
+        )
+
+        firestore.collection("produtos")
+            .add(data)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
+    }
+
+    fun updateProduct(product: Product, onSucess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val data = hashMapOf(
+            "nome" to product.name,
+            "descrição" to product.description,
+            "preco_custo" to product.costPrice,
+            "preco_venda" to product.salePrice,
+            "estoque" to product.stockQuantity,
+            "foto_url" to product.photoUrl
+        )
+        firestore.collection("produtos")
+            .document(product.id)
+            .update(data as Map<String, Any>)
+            .addOnSuccessListener { onSucess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
+    }
+
+    fun deleteProduct(productId: String, onSucess: () -> Unit, onFailure: (Exception) -> Unit) {
+        firestore.collection("produtos")
+            .document(productId)
+            .delete()
+            .addOnSuccessListener { onSucess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
+    }
+
     fun generatePdfReport(context: Context, productList: List<Product>) {
         val pdfDocument = PdfDocument()
         val paint = Paint()
         val titlePaint = Paint()
 
-
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
         val page = pdfDocument.startPage(pageInfo)
         val canvas: Canvas = page.canvas
 
-
         titlePaint.textSize = 25f
         titlePaint.isFakeBoldText = true
         canvas.drawText("Relatório de Estoque - Canelinha", 40f, 50f, titlePaint)
-
 
         paint.textSize = 16f
         paint.isFakeBoldText = true
         canvas.drawText("Produto", 40f, 100f, paint)
         canvas.drawText("Quantidade", 400f, 100f, paint)
         canvas.drawLine(40f, 115f, 550f, 115f, paint)
-
 
         paint.isFakeBoldText = false
         paint.textSize = 14f
@@ -79,7 +128,6 @@ class ProductRepository {
 
         pdfDocument.finishPage(page)
 
-
         val file = File(
             context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
             "RelatorioEstoque.pdf"
@@ -94,45 +142,4 @@ class ProductRepository {
             pdfDocument.close()
         }
     }
-
-    fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        val data = hashMapOf(
-            "nome" to product.name,
-            "descrição" to product.description,
-            "preco_custo" to product.costPrice,
-            "preco_venda" to product.salePrice,
-            "estoque" to product.stockQuantity,
-            "foto_url" to product.photoUrl
-        )
-
-        db.collection("produtos")
-            .add(data)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { exception -> onFailure(exception) }
-    }
-
-    fun updateProduct(product: Product, onSucess: () -> Unit, onFailure: (Exception) -> Unit) {
-        val data = hashMapOf(
-            "nome" to product.name,
-            "descrição" to product.description,
-            "preco_custo" to product.costPrice,
-            "preco_venda" to product.salePrice,
-            "estoque" to product.stockQuantity,
-            "foto_url" to product.photoUrl
-        )
-        db.collection("produtos")
-            .document(product.id)
-            .update(data as Map<String, Any>)
-            .addOnSuccessListener { onSucess() }
-            .addOnFailureListener { exception -> onFailure(exception) }
-    }
-
-    fun deleteProduct(productId: String, onSucess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection("produtos")
-            .document(productId)
-            .delete()
-            .addOnSuccessListener { onSucess() }
-            .addOnFailureListener { exception -> onFailure(exception) }
-    }
 }
-

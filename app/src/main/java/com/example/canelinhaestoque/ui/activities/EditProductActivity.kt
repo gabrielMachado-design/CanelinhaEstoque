@@ -1,6 +1,7 @@
 package com.example.canelinhaestoque.ui.activities
 
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.canelinhaestoque.R
@@ -8,26 +9,31 @@ import com.example.canelinhaestoque.data.model.Product
 import com.example.canelinhaestoque.data.repository.ProductRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditProductActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var repo: ProductRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_product)
 
-        val btnBack = findViewById<android.widget.ImageButton>(R.id.btnBack)
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
         val etName = findViewById<TextInputEditText>(R.id.etName)
         val etCostPrice = findViewById<TextInputEditText>(R.id.etCostPrice)
         val etPrice = findViewById<TextInputEditText>(R.id.etPrice)
         val etStock = findViewById<TextInputEditText>(R.id.etStock)
         val btnUpdate = findViewById<MaterialButton>(R.id.btnUpdate)
 
-        val repo = ProductRepository()
+
 
         btnBack.setOnClickListener {
             finish()
         }
-
 
         val productId = intent.getStringExtra("PRODUCT_ID") ?: ""
         val productName = intent.getStringExtra("PRODUCT_NAME") ?: ""
@@ -35,7 +41,7 @@ class EditProductActivity : ComponentActivity() {
         val productPrice = intent.getDoubleExtra("PRODUCT_PRICE", 0.0)
         val productStock = intent.getDoubleExtra("PRODUCT_STOCK", 0.0)
 
-        // Preenchendo os campos automaticamente
+
         etName.setText(productName)
         etCostPrice.setText(productCost.toString())
         etPrice.setText(productPrice.toString())
@@ -58,6 +64,8 @@ class EditProductActivity : ComponentActivity() {
                 }, onFailure = {
                     Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show()
                 })
+            } else {
+                etName.error = "O nome não pode estar vazio"
             }
         }
     }

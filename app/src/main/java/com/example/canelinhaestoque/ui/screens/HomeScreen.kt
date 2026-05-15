@@ -46,7 +46,7 @@ fun HomeScreen(
                     IconButton(onClick = {
                         auth.signOut()
 
-                        // Navega para o Login e limpa a pilha de telas
+
                         val intent = Intent(context, LoginActivity::class.java).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         }
@@ -66,7 +66,7 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        // CONTEÚDO PRINCIPAL
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

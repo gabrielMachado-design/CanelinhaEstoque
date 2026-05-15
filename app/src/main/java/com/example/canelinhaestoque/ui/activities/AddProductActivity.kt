@@ -9,12 +9,17 @@ import com.example.canelinhaestoque.data.model.Product
 import com.example.canelinhaestoque.data.repository.ProductRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint // IMPORTANTE
+import javax.inject.Inject // IMPORTANTE
 
+@AndroidEntryPoint
 class AddProductActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var repo: ProductRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_add_product)
 
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
@@ -24,7 +29,7 @@ class AddProductActivity : ComponentActivity() {
         val etStock = findViewById<TextInputEditText>(R.id.etStock)
         val btnSave = findViewById<MaterialButton>(R.id.btnSave)
 
-        val repo = ProductRepository()
+
 
         btnBack.setOnClickListener {
             finish()
@@ -36,7 +41,6 @@ class AddProductActivity : ComponentActivity() {
             val priceText = etPrice.text.toString().trim()
             val stockText = etStock.text.toString().trim()
 
-
             if (name.isEmpty()) {
                 etName.error = "Digite o nome do produto"
                 return@setOnClickListener
@@ -47,11 +51,9 @@ class AddProductActivity : ComponentActivity() {
                 return@setOnClickListener
             }
 
-
             val costPrice = costPriceText.toDoubleOrNull() ?: 0.0
             val price = priceText.toDoubleOrNull() ?: 0.0
             val stock = stockText.toDoubleOrNull() ?: 0.0
-
 
             val product = Product(
                 id = "",
@@ -61,7 +63,6 @@ class AddProductActivity : ComponentActivity() {
                 salePrice = price,
                 stockQuantity = stock
             )
-
 
             repo.addProduct(
                 product = product,

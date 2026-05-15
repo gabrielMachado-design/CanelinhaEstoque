@@ -55,14 +55,14 @@ fun ProductListScreen(
 
     Column(modifier = Modifier.fillMaxSize().background(Color(0xFFF8F8F8))) {
 
-        // TOP BAR
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // VOLTAR
+
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -71,7 +71,7 @@ fun ProductListScreen(
                 )
             }
 
-            // Título
+
             Text(
                 text = "Canelinha Produtos",
                 color = canelinhaRed,
@@ -82,7 +82,7 @@ fun ProductListScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // ADICIONAR
+
             IconButton(onClick = onAddClick) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -92,7 +92,7 @@ fun ProductListScreen(
             }
         }
 
-        // BUSCA COM SOMBRA E BORDAS REDONDAS
+
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,7 +122,7 @@ fun ProductListScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 📦 LISTA DE PRODUTOS
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 16.dp)
@@ -133,7 +133,7 @@ fun ProductListScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 6.dp)
                         .clickable {
-                            // LOGICA  ABRIR TELA  EDIÇÃO
+
                             val intent = Intent(context, EditProductActivity::class.java).apply {
                                 putExtra("PRODUCT_ID", product.id)
                                 putExtra("PRODUCT_NAME", product.name)
@@ -153,7 +153,7 @@ fun ProductListScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            // Nome em Branco
+
                             Text(
                                 text = product.name,
                                 style = MaterialTheme.typography.titleMedium,
@@ -181,7 +181,7 @@ fun ProductListScreen(
                             )
                         }
 
-                        //  DELETE
+
                         IconButton(onClick = {
                             if (product.id.isNotEmpty()) {
                                 viewModel.deleteProduct(product.id)

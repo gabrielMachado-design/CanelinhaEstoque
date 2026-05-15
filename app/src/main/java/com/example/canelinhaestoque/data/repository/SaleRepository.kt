@@ -2,17 +2,16 @@ package com.example.canelinhaestoque.data.repository
 
 import com.example.canelinhaestoque.data.model.Sale
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.inject.Inject
 
-
-class SaleRepository {
-
-    private val db = FirebaseFirestore.getInstance()
-
+class SaleRepository @Inject constructor(
+    private val firestore: FirebaseFirestore
+) {
     fun saveSale(
         sale: Sale,
         onSucess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         val data = hashMapOf(
             "data" to sale.date,
             "total" to sale.totalAmount,
@@ -24,10 +23,9 @@ class SaleRepository {
                     "quantidade" to it.quantity,
                     "preco_unitario" to it.unitPrice,
                     "desconto_item" to it.itemDiscount
-
                 )
             },
-            "pagamentos" to sale.payment.map {
+            "pagamentos" to sale.payments.map {
                 hashMapOf(
                     "tipo" to it.type,
                     "valor" to it.amount,
@@ -37,9 +35,9 @@ class SaleRepository {
             }
         )
 
-        db.collection("vendas")
+        firestore.collection("vendas")
             .add(data)
             .addOnSuccessListener { onSucess() }
-            .addOnFailureListener { onFailure(it) }
+            .addOnFailureListener { exception -> onFailure(exception) }
     }
 }
