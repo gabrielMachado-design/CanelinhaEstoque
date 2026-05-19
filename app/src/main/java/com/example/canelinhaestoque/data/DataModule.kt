@@ -1,4 +1,4 @@
-package com.example.canelinhaestoque.di
+package com.example.canelinhaestoque.data
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
