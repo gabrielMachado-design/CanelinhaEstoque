@@ -1,4 +1,4 @@
-package com.example.canelinhaestoque
+package com.example.canelinhaestoque.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

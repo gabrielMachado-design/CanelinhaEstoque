@@ -40,4 +40,19 @@ class SaleRepository @Inject constructor(
             .addOnSuccessListener { onSucess() }
             .addOnFailureListener { exception -> onFailure(exception) }
     }
+
+    fun getSalesByPeriod(startDate: Long, endDate: Long, callback: (List<Sale>) -> Unit) {
+        firestore.collection("vendas")
+            .whereGreaterThanOrEqualTo("data", startDate)
+            .whereLessThanOrEqualTo("data", endDate)
+            .addSnapshotListener { result, error ->
+                if (error != null || result == null) {
+                    callback(emptyList())
+                    return@addSnapshotListener
+                }
+
+                val salesList = result.toObjects(Sale::class.java)
+                callback(salesList)
+            }
+    }
 }

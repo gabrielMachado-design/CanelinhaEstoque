@@ -17,6 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.example.canelinhaestoque.ui.activities.ReportsActivity
+import kotlin.jvm.java
 
 enum class Screen {
     HOME,
@@ -53,6 +55,9 @@ class MainActivity : ComponentActivity() {
                         onSalesClick = {
 
                             startActivity(Intent(this@MainActivity, SaleActivity::class.java))
+                        },
+                        onReportsClick = {
+                            startActivity(Intent(this@MainActivity, ReportsActivity::class.java))
                         }
                     )
                 }

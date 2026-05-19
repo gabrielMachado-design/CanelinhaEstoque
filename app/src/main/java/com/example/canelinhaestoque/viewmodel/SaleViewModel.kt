@@ -58,7 +58,8 @@ class SaleViewModel @Inject constructor(
                 productId = product.id,
                 name = product.name,
                 quantity = 1.0,
-                unitPrice = product.salePrice
+                unitPrice = product.salePrice,
+                costPrice = product.costPrice
             )
         }
     }
